@@ -1,7 +1,9 @@
 
-# Desk Kit
 
-Desk Kit is a web-based desktop & mobile template that looks and feels like a computer, inspired by 2010s desktop UI. Every app opens in its own window, each one is just a folder of HTML, CSS and JavaScript you can edit yourself. 
+
+# <img src="https://i.ibb.co/zHXPhHwv/deskkit.png" alt="drawing" width="170"/>
+
+**Desk Kit** is a web-based desktop & mobile template that looks and feels like a computer, inspired by 2010s desktop UI. Every app opens in its own window, each one is just a folder of HTML, CSS and JavaScript you can edit yourself. 
 
 ![This is what the desktop looks like!](https://i.imgur.gg/6WzO46O-deskkit.png)
 
