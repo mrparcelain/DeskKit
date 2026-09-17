@@ -1,21 +1,17 @@
+
 # Desk Kit
 
-A personal site that works like a desktop computer. Icons sit on a wallpaper,
-double-clicking one opens it in a draggable window, and every app is a plain
-folder of HTML, CSS and JavaScript. No build step, no framework, no bundler:
-put the files on a web server and it runs.
+Desk Kit is a web-based desktop & mobile template that looks and feels like a computer, inspired by 2010s desktop UI. Every app opens in its own window, each one is just a folder of HTML, CSS and JavaScript you can edit yourself. 
 
-On a narrow screen the same page turns into a phone layout, with one tab per
-app and each app full screen. It switches back when the window gets wider.
+![This is what the desktop looks like!](https://i.imgur.gg/6WzO46O-deskkit.png)
 
-## What is in the box
+You don't need any build tools!
+
+## What's in here
 
 * A desktop with wallpaper, clock, draggable icons and windows.
-* A Music app: artists, releases, a track list and a player, plus a separate
-  phone layout with lock screen controls.
-* A Photos app: libraries, albums by year, a grid and a zoomable viewer, again
-  with its own phone layout.
-* Empty "folder" apps (Pages, Videos, Articles) to fill in or delete.
+* A couple of stock apps: Music and Photos.
+* Template apps (Pages, Videos, Articles) to fill in or delete.
 * A Welcome app that explains how the whole thing works from inside the site.
 * `/developer/`: a spreadsheet style editor for the Music and Photos data, with
   optional publishing through a small PHP API.
@@ -29,11 +25,11 @@ straight from the file system will not work. During development:
 php -S localhost:8000
 # or
 python3 -m http.server 8000
-# or the Live Server extension in VS Code
+# I personally use the Live Server extension in VS Code
 ```
 
 PHP is only needed if you want the editor to publish changes back to the JSON
-files. Everything else is static and works on GitHub Pages, Netlify or plain
+files. Everything else is static and works on GitHub Pages, Neocities or plain
 shared hosting.
 
 ## Quick start
@@ -107,9 +103,11 @@ Publishing needs PHP and a key:
 
 `api/key.env` is git-ignored, and the API refuses to run while the key is empty.
 Without PHP you can still edit in the browser and download the JSON, then commit
-it yourself. `developer/README.md` has the details.
+it yourself. 
 
-## Third party files
+`developer/README.md` has the details.
+
+## What third party stuff this project uses
 
 * jQuery and jQuery UI (`script/draggable.js`), MIT licensed.
 * Inter, loaded from rsms.me.
