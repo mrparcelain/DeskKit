@@ -97,19 +97,41 @@ img {
 }
 
 /* App icons: 3 per row, in fixed-size cells so labels never shove icons around.
-   Change --icons-per-row to use a different number of columns. */
+   Change --icons-per-row to use a different number of columns.
+   The grid covers the whole desktop, so a dragged icon can go anywhere, and
+   only the icons themselves take clicks. */
 .box-icons1 {
     --icons-per-row: 3;
+    --icon-width: 5.5rem;
+    --icon-height: 5.75rem;
     position: absolute;
     top: var(--space-6);
     left: var(--space-4);
+    right: var(--space-4);
+    bottom: var(--space-4);
     display: grid;
-    grid-template-columns: repeat(var(--icons-per-row), 5.5rem);
-    grid-auto-rows: 5.75rem;
+    grid-template-columns: repeat(var(--icons-per-row), var(--icon-width));
+    grid-auto-rows: var(--icon-height);
+    justify-content: start;
+    align-content: start;
     gap: var(--space-2);
-    max-height: calc(100% - 4rem);
-    overflow-y: auto;
-    scrollbar-width: none;
+    pointer-events: none;
+}
+
+.box-icons1 > * {
+    pointer-events: auto;
+}
+
+/* After the first drag every icon keeps its own spot, so moving one doesn't
+   push the others around. script/desktop.js adds this class. */
+.box-icons1.is-freeform {
+    display: block;
+}
+
+.box-icons1.is-freeform .box-icon {
+    position: absolute;
+    width: var(--icon-width);
+    height: var(--icon-height);
 }
 
 .box-icon {

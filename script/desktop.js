@@ -532,6 +532,92 @@
     grid.append(icon);
   }
 
+  /* --------------------------------------------------------- desktop icons */
+
+  // Icons start laid out in a grid. The first time one is dragged, every icon
+  // is pinned to the place it is already in (the .is-freeform class), so moving
+  // one no longer reflows the rest. Positions are kept for this visitor.
+  const ICONS_KEY = 'desktop.iconPlaces';
+
+  function readIconPlaces() {
+    try { return JSON.parse(localStorage.getItem(ICONS_KEY)) || {}; } catch (err) { return {}; }
+  }
+
+  function saveIconPlaces(grid) {
+    const places = {};
+    grid.querySelectorAll('.box-icon').forEach((icon) => {
+      places[icon.dataset.app] = [parseFloat(icon.style.left) || 0, parseFloat(icon.style.top) || 0];
+    });
+    try { localStorage.setItem(ICONS_KEY, JSON.stringify(places)); } catch (err) { /* storage blocked */ }
+  }
+
+  // Pin every icon where it currently sits, then switch the grid off
+  function freezeIcons(grid) {
+    if (grid.classList.contains('is-freeform')) return;
+    const base = grid.getBoundingClientRect();
+    const spots = [...grid.querySelectorAll('.box-icon')].map((icon) => {
+      const box = icon.getBoundingClientRect();
+      return [icon, box.left - base.left, box.top - base.top];
+    });
+    grid.classList.add('is-freeform');
+    spots.forEach(([icon, x, y]) => placeIcon(grid, icon, x, y));
+  }
+
+  function placeIcon(grid, icon, x, y) {
+    // inline, because jQuery UI gives a dragged element position: relative
+    icon.style.position = 'absolute';
+    const limitX = Math.max(0, grid.clientWidth - icon.offsetWidth);
+    const limitY = Math.max(0, grid.clientHeight - icon.offsetHeight);
+    icon.style.left = `${Math.min(Math.max(0, x), limitX)}px`;
+    icon.style.top = `${Math.min(Math.max(0, y), limitY)}px`;
+  }
+
+  function setupIcons(grid) {
+    const places = readIconPlaces();
+    const saved = [...grid.querySelectorAll('.box-icon')].filter((icon) => places[icon.dataset.app]);
+    if (saved.length) {
+      freezeIcons(grid);
+      saved.forEach((icon) => {
+        const [x, y] = places[icon.dataset.app];
+        placeIcon(grid, icon, x, y);
+      });
+    }
+
+    // Keep icons on screen when the window is resized
+    window.addEventListener('resize', () => {
+      if (!grid.classList.contains('is-freeform')) return;
+      grid.querySelectorAll('.box-icon').forEach((icon) => {
+        placeIcon(grid, icon, parseFloat(icon.style.left) || 0, parseFloat(icon.style.top) || 0);
+      });
+    });
+
+    // jQuery UI does the dragging itself, if it's on the page
+    const $ = window.jQuery;
+    if (!$ || !$.fn.draggable) return;
+    $(grid).children('.box-icon').draggable({
+      containment: 'parent',
+      // the icons are <button>s, which jQuery UI would refuse to drag by default
+      cancel: 'input, textarea, select, option',
+      distance: 4,
+      zIndex: 30,
+      scroll: false,
+      start: () => freezeIcons(grid),
+      stop: () => saveIconPlaces(grid),
+    });
+  }
+
+  // Put the icons back in their starting grid
+  function resetIcons(grid = document.querySelector('.box-icons1')) {
+    if (!grid) return;
+    try { localStorage.removeItem(ICONS_KEY); } catch (err) { /* storage blocked */ }
+    grid.classList.remove('is-freeform');
+    grid.querySelectorAll('.box-icon').forEach((icon) => {
+      icon.style.position = '';
+      icon.style.left = '';
+      icon.style.top = '';
+    });
+  }
+
   async function boot({ grid = '.box-icons1' } = {}) {
     const gridEl = typeof grid === 'string' ? document.querySelector(grid) : grid;
 
@@ -559,10 +645,7 @@
 
     if (gridEl) records.filter(Boolean).forEach((record) => renderIcon(record, gridEl));
 
-    // Let jQuery UI make icons draggable if it's on the page
-    if (window.jQuery && window.jQuery.fn.draggable && gridEl) {
-      window.jQuery(gridEl).children('.box-icon').draggable({ appendTo: 'body', zIndex: 30, cancel: 'input, textarea, select, option' });
-    }
+    if (gridEl) setupIcons(gridEl);
 
     const loaded = records.filter(Boolean);
     buildMobileShell(loaded);
@@ -613,6 +696,8 @@
     // app.json). setOpenOnStart remembers a visitor's choice in their browser.
     opensOnStart,
     setOpenOnStart,
+    // Put dragged desktop icons back into their starting grid
+    resetIcons,
     // URL of a file inside an app folder, e.g. Desktop.url('music', 'music.json')
     url(id, path = '') { return new URL(path, new URL(`${id}/`, APPS_ROOT)).href; },
     get apps() { return [...apps.values()].map(({ id, manifest }) => ({ id, name: manifest.name })); },
