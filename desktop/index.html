@@ -61,6 +61,7 @@
             and its window is created the first time it's opened.
             See apps/README.md to make your own app.
         -->
+
         <nav class="box-icons1" aria-label="Apps"></nav>
 
         <div class="time-and-date">
@@ -72,7 +73,7 @@
         <script src="../script/desktop.js"></script>
         <script src="../script/contextmenu.js"></script>
         <script>
-            // Restore a wallpaper chosen with right-click → "Set as Background"
+            // Restore a wallpaper chosen with right-click -> "Set as Background"
             try {
                 const savedSrc = localStorage.getItem('wallpaperSrc');
                 if (savedSrc) document.getElementById('wallpaper').src = savedSrc;
