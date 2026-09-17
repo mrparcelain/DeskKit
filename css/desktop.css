@@ -1,0 +1,450 @@
+/* ==========================================================================
+   Desktop core
+   --------------------------------------------------------------------------
+   Core styles shared by every app: the desktop, icons, windows and a few
+   helpers. Styles for a specific app live in apps/<app>/style.css.
+
+   Unit rules used in this file (and pc.css):
+
+   rem  → text, spacing, icon sizes, window sizes.
+          1rem = the browser's base font size (16px by default). It scales
+          when a visitor zooms or bumps their default font size, so the UI
+          stays readable and proportional.
+   em   → things that should scale with *their own* text, e.g. letter-spacing
+          or a gap next to a word. (-0.02em is "2% of this font size".)
+   px   → hairlines and shadows only (1px borders, box-shadow blur). These
+          should stay crisp and never grow.
+   %/fr → space *inside* a window (columns, bars) so panes share whatever
+          room the window has.
+   vw/vh→ positioning on the screen, and big display type via clamp().
+          Never for small UI text - 1.4vh is 10px on a laptop and 20px on a
+          4K monitor, which is why things looked tiny or huge before.
+   ========================================================================== */
+
+:root {
+    /* type scale */
+    --text-2xs: 0.6875rem;  /* 11px */
+    --text-xs: 0.75rem;     /* 12px */
+    --text-sm: 0.8125rem;   /* 13px */
+    --text-md: 0.9375rem;   /* 15px */
+    --text-lg: 1.125rem;    /* 18px */
+    --text-xl: 1.375rem;    /* 22px */
+
+    /* spacing scale */
+    --space-1: 0.25rem;     /* 4px  */
+    --space-2: 0.5rem;      /* 8px  */
+    --space-3: 0.75rem;     /* 12px */
+    --space-4: 1rem;        /* 16px */
+    --space-5: 1.5rem;      /* 24px */
+    --space-6: 2rem;        /* 32px */
+
+    /* window chrome */
+    --titlebar-height: 1.375rem;
+    --toolbar-height: 3.25rem;
+    --window-radius: 4px;
+    --hairline: 1px solid #d9d9d9;
+
+    --ui-font: Helvetica, Arial, sans-serif;
+}
+
+/* One knob for the whole UI: everything is in rem, so changing the root
+   font-size scales icons, windows and text together. Large monitors get a
+   small bump; visitors' own browser zoom still works on top of this. */
+html {
+    font-size: 100%;
+}
+
+@media (min-width: 150rem) {   /* ≥ 2400px wide */
+    html { font-size: 112.5%; }
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+img {
+    -webkit-user-drag: none;
+}
+
+#center {
+    max-width: fit-content;
+    margin-inline: auto;
+}
+
+/* ---------- Desktop ---------- */
+
+#wallpaper {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -3;
+}
+
+#shadow {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(2, 0, 36, 0.1) 70%, rgba(0, 0, 0, 0.6) 100%);
+    z-index: -2;
+}
+
+/* App icons: 3 per row, in fixed-size cells so labels never shove icons around.
+   Change --icons-per-row to use a different number of columns. */
+.box-icons1 {
+    --icons-per-row: 3;
+    position: absolute;
+    top: var(--space-6);
+    left: var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(var(--icons-per-row), 5.5rem);
+    grid-auto-rows: 5.75rem;
+    gap: var(--space-2);
+    max-height: calc(100% - 4rem);
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.box-icon {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    cursor: url(../ui/point.svg), pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    margin: 0;
+    border-radius: var(--window-radius);
+    user-select: none;
+}
+
+.box-icon img {
+    width: 3.25rem;
+    height: 3.25rem;
+    object-fit: contain;
+}
+
+.pclogo-pc {
+    padding-top: var(--space-6);
+}
+
+/* ---------- Windows ---------- */
+
+.app-shadow {
+    box-shadow: rgba(0, 0, 0, 0.4) 0 4px 14px;
+}
+
+.app {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    resize: both;
+    background-color: #ffffff;
+    border-radius: var(--window-radius);
+    /* never let a window be bigger than the screen */
+    max-width: 100vw;
+    max-height: 100vh;
+}
+
+/* Default size: comfortable, capped, and always fits the viewport.
+   min-* stops the user from resizing it into a crushed mess. */
+.app-titlebar {
+    position: relative;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: var(--titlebar-height);
+    padding: 0 var(--space-2);
+    background-image: linear-gradient(180deg, #ffffff 0%, #e4e4e4 100%);
+    border-bottom: 1px solid #c7c7c7;
+}
+
+.box-appactions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.box-appactions.is-spacer {
+    visibility: hidden;
+}
+
+.box-appactions a,
+.box-appactions button,
+.box-appactions span {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    border: 0;
+    background: none;
+}
+
+.box-appactions img {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+.appname {
+    font-size: var(--text-xs);
+}
+
+/* ---------- Shared window body ---------- */
+
+.maininfobox {
+    flex: 1 1 auto;
+    min-height: 0;          /* lets children scroll instead of overflowing */
+    width: 100%;
+    display: grid;
+    background: #ffffff;
+}
+
+.pane-padding {
+    padding: var(--space-5);
+}
+
+.section-title,
+#selectedartistname,
+.sort-year,
+#sort-year {
+    display: block;
+    font-family: var(--ui-font);
+    font-size: var(--text-xl);
+    font-weight: bold;
+}
+
+.section-rule {
+    height: 1px;
+    background-color: #e2e2e2;
+    margin: var(--space-2) 0 var(--space-4);
+}
+
+
+/* Everything below the title bar. Apps put their index.html in here. */
+.app-body {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    background: #ffffff;
+    font-family: var(--ui-font);
+}
+
+.app-body.is-loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: -0.625rem 0 0 -0.625rem;
+    border: 2px solid #d0d0d0;
+    border-top-color: #707070;
+    border-radius: 50%;
+    animation: app-spin 0.8s linear infinite;
+}
+
+@keyframes app-spin { to { transform: rotate(360deg); } }
+
+/* Simple centred message, e.g. for an empty folder app */
+.app-empty {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    text-align: center;
+    color: #7c7c7c;
+    font-size: var(--text-sm);
+}
+
+.app-empty img {
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: contain;
+    opacity: 0.85;
+}
+
+.app-empty strong {
+    color: #313131;
+    font-size: var(--text-md);
+}
+
+.app-close {
+    cursor: url(../ui/point.svg), pointer;
+}
+
+/* ==========================================================================
+   Mobile
+   --------------------------------------------------------------------------
+   Below 47.5rem (760px) the same page becomes a phone layout: a row of app
+   tabs, and each app full-screen underneath. script/desktop.js builds this
+   and switches live on resize - keep MOBILE_QUERY there in sync with this.
+   ========================================================================== */
+
+.mobile-shell {
+    display: none;
+}
+
+html.is-mobile .box-icons1,
+html.is-mobile .time-and-date,
+html.is-mobile .app,
+html.is-mobile #global-context-menu {
+    display: none !important;
+}
+
+html.is-mobile body {
+    background: #f1f1f1;
+}
+
+html.is-mobile .mobile-shell {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+    background: #f5f5f5;
+    color: #333333;
+    font-family: var(--ui-font);
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* tabs, styled like browser tabs */
+.m-top {
+    flex: none;
+    border-bottom: 1px solid #dcdcdc;
+    background: #f5f5f5;
+}
+
+.m-tabs {
+    display: flex;
+    gap: 0.125rem;
+    padding: 0.625rem var(--space-2) 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    box-shadow: inset 0 -0.25rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+.m-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.m-tab {
+    flex: none;
+    position: relative;
+    min-height: 2.5rem;
+    padding: 0 var(--space-5);
+    border: 1px solid transparent;
+    border-bottom: 0;
+    border-radius: 4px 4px 0 0;
+    background: transparent;
+    color: #666666;
+    font: inherit;
+    font-size: var(--text-md);
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.m-tab.is-active {
+    z-index: 1;
+    margin-bottom: -1px;
+    border-color: #dcdcdc;
+    background: #ffffff;
+    color: #000000;
+}
+
+.m-tab:focus-visible {
+    outline: 2px solid #007aff;
+    outline-offset: -2px;
+}
+
+/* thin title under the tabs, for apps without their own header */
+.m-titlebar {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0 var(--space-4);
+    border-bottom: 1px solid #cccccc;
+    background: linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.m-titlebar[hidden] {
+    display: none;
+}
+
+.m-title {
+    overflow: hidden;
+    color: #333333;
+    font-size: 1.25rem;
+    font-weight: 300;
+    text-shadow: 0 1px 0 #ffffff;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.m-views {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.m-view {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.m-view[hidden] { display: none; }
+.m-view.is-current { z-index: 2; }
+.m-view.is-after { z-index: 3; transform: translate3d(100%, 0, 0); }
+.m-view.is-before { z-index: 1; transform: translate3d(-100%, 0, 0); }
+.m-view.is-instant { transition: none; }
+
+.m-view-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .m-view { transition: none; }
+}
+
+/* Keep last so it beats any `display` set above (e.g. .app { display: flex }) */
+.hidden {
+    display: none !important;
+}

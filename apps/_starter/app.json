@@ -1,0 +1,14 @@
+{
+  "name": "My App",
+  "icon": "../../ui/icon/folder.png",
+  "window": {
+    "width": "32rem",
+    "height": "22rem",
+    "minWidth": "20rem",
+    "minHeight": "14rem",
+    "resizable": true
+  },
+  "html": "index.html",
+  "styles": ["style.css"],
+  "scripts": ["script.js"]
+}

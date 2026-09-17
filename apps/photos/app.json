@@ -1,0 +1,22 @@
+{
+  "name": "Photos",
+  "icon": "icon.png",
+  "window": {
+    "width": "60rem",
+    "height": "40rem",
+    "minWidth": "36rem",
+    "minHeight": "22rem"
+  },
+  "html": "index.html",
+  "styles": ["style.css"],
+  "scripts": [
+    { "src": "https://unpkg.com/@panzoom/panzoom@4.6.0/dist/panzoom.min.js", "optional": true },
+    "script.js"
+  ],
+  "mobile": {
+    "html": "mobile.html",
+    "styles": ["mobile.css"],
+    "scripts": ["mobile.js"],
+    "titlebar": false
+  }
+}

@@ -1,0 +1,447 @@
+<!--
+    Welcome app - the guide that opens the first time someone visits the desktop.
+    Edit or delete it freely: remove "welcome" from apps/apps.json to hide it,
+    or set "openOnStart": false in app.json so it only opens from its icon.
+-->
+<div class="welcome">
+    <nav class="welcome-nav" aria-label="Guide sections">
+        <span class="welcome-nav-label">Guide</span>
+        <button type="button" class="welcome-nav-item is-active" data-section="start">Welcome</button>
+        <button type="button" class="welcome-nav-item" data-section="how">How it works</button>
+        <button type="button" class="welcome-nav-item" data-section="first-app">Your first app</button>
+        <button type="button" class="welcome-nav-item" data-section="api">App toolkit</button>
+
+        <span class="welcome-nav-label">Make it yours</span>
+        <button type="button" class="welcome-nav-item" data-section="content">Music &amp; photos</button>
+        <button type="button" class="welcome-nav-item" data-section="customize">Customize</button>
+        <button type="button" class="welcome-nav-item" data-section="publish">Put it online</button>
+        <button type="button" class="welcome-nav-item" data-section="api-setup">Set up publishing</button>
+
+        <label class="welcome-startup">
+            <input type="checkbox" id="welcome-on-start">
+            Show this guide when the desktop opens
+        </label>
+    </nav>
+
+    <main class="welcome-main">
+
+        <!-- ============================================================ -->
+        <section class="welcome-section is-active" data-section="start">
+            <h1 class="welcome-title">Welcome to your desktop.</h1>
+            <p class="welcome-lead">
+                Desk Kit is a web-based desktop template that looks and feels like a computer.
+                Every app opens in its own window, each one
+                is just a folder of HTML, CSS and JavaScript you can edit yourself.
+                You don't need any build tools!
+            </p>
+        </section>
+
+        <!-- ============================================================ -->
+        <section class="welcome-section" data-section="how" hidden>
+            <h1 class="welcome-title">Apps are folders.</h1>
+            <p class="welcome-lead">
+                The desktop page doesn't know about any app in advance. When it loads, it reads a
+                list of folders and builds everything from what it finds.
+            </p>
+
+            <ol class="welcome-flow">
+                <li>
+                    <code>apps/apps.json</code>
+                    <span>A list of app folder names. Each one becomes an icon, in this order, 3 per row.</span>
+                </li>
+                <li>
+                    <code>apps/&lt;name&gt;/app.json</code>
+                    <span>The app's name, icon and window size, plus which files to load.</span>
+                </li>
+                <li>
+                    <code>index.html · style.css · script.js</code>
+                    <span>Loaded the first time you open the app. The HTML goes inside the window, then the script runs.</span>
+                </li>
+            </ol>
+
+            <h2 class="welcome-h2">What's in the project</h2>
+            <table class="welcome-table">
+                <tbody>
+                    <tr><td><code>apps/</code></td><td>Every app, one folder each. This is where you'll spend your time.</td></tr>
+                    <tr><td><code>desktop/index.html</code></td><td>The desktop itself: wallpaper, clock and the empty icon grid.</td></tr>
+                    <tr><td><code>script/desktop.js</code></td><td>Loads apps and runs the windows. Gives apps the <code>Desktop</code> toolkit.</td></tr>
+                    <tr><td><code>css/desktop.css</code></td><td>Windows, icons and shared design tokens (sizes, spacing, fonts).</td></tr>
+                    <tr><td><code>developer/</code></td><td>A friendly editor for the Music and Photos libraries.</td></tr>
+                    <tr><td><code>api/</code></td><td>Small PHP scripts the editor uses to publish changes and upload images.</td></tr>
+                    <tr><td><code>ui/ · media/ · fonts/</code></td><td>Shared interface images, your wallpaper and logo, and fonts.</td></tr>
+                </tbody>
+            </table>
+
+            <h2 class="welcome-h2">On phones</h2>
+            <p class="welcome-lead">
+                The same page turns into a phone layout when the screen is narrow - try making this browser
+                window thinner. Icons become tabs along the top and each app fills the screen. It switches back
+                as soon as there's room for windows again. The editor at <code>/developer/</code> stays computer-only.
+            </p>
+
+            <p class="welcome-note">
+                Because apps are loaded with <code>fetch</code>, the site has to be opened through a web server -
+                your hosting, <code>php -S localhost:8000</code>, or an editor extension like Live Server.
+                Double-clicking <code>desktop/index.html</code> in your file browser won't load the apps.
+            </p>
+        </section>
+
+        <!-- ============================================================ -->
+        <section class="welcome-section" data-section="first-app" hidden>
+            <h1 class="welcome-title">Make an app in five steps.</h1>
+            <p class="welcome-lead">We'll make a tiny guestbook called <em>Hello</em>. Swap the name for whatever you're building.</p>
+
+            <ol class="welcome-steps">
+                <li>
+                    <h3>Copy the starter</h3>
+                    <p>Duplicate <code>apps/_starter</code> and rename the copy to <code>apps/hello</code>.
+                        Use lowercase letters, numbers and dashes - the folder name is the app's id.</p>
+                </li>
+
+                <li>
+                    <h3>Put it on the desktop</h3>
+                    <p>Add the folder name to <code>apps/apps.json</code>:</p>
+                    <div class="welcome-code">
+                        <button type="button" class="welcome-copy">Copy</button>
+<pre><code>[
+  "welcome",
+  "music",
+  "photos",
+  "hello"
+]</code></pre>
+                    </div>
+                </li>
+
+                <li>
+                    <h3>Name it</h3>
+                    <p>Open <code>apps/hello/app.json</code> and set the name, icon and window size.
+                        Sizes use <code>rem</code> (1rem = 16px).</p>
+                    <div class="welcome-code">
+                        <button type="button" class="welcome-copy">Copy</button>
+<pre><code>{
+  "name": "Hello",
+  "icon": "../../ui/icon/folder.png",
+  "window": { "width": "28rem", "height": "20rem" },
+  "html": "index.html",
+  "styles": ["style.css"],
+  "scripts": ["script.js"]
+}</code></pre>
+                    </div>
+                </li>
+
+                <li>
+                    <h3>Build the window</h3>
+                    <p>Replace <code>apps/hello/index.html</code> with the content of your window -
+                        no <code>&lt;html&gt;</code> or <code>&lt;body&gt;</code>, just what goes inside.</p>
+                    <div class="welcome-code">
+                        <button type="button" class="welcome-copy">Copy</button>
+<pre><code>&lt;div class="hello"&gt;
+  &lt;h1 class="hello-title"&gt;Sign my guestbook&lt;/h1&gt;
+  &lt;form class="hello-form"&gt;
+    &lt;input class="hello-name" placeholder="Your name" required&gt;
+    &lt;button&gt;Sign&lt;/button&gt;
+  &lt;/form&gt;
+  &lt;ul class="hello-list"&gt;&lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+                    <p>And style it in <code>style.css</code>. Start class names with the app's name so they can't clash with other apps:</p>
+                    <div class="welcome-code">
+                        <button type="button" class="welcome-copy">Copy</button>
+<pre><code>.hello { padding: var(--space-5); }
+.hello-title { font-size: var(--text-xl); margin: 0 0 var(--space-3); }
+.hello-list { margin-top: var(--space-4); }</code></pre>
+                    </div>
+                </li>
+
+                <li>
+                    <h3>Make it do something</h3>
+                    <p>In <code>script.js</code>, change the id to <code>'hello'</code>. The function runs once, when the window first opens:</p>
+                    <div class="welcome-code">
+                        <button type="button" class="welcome-copy">Copy</button>
+<pre><code>Desktop.app('hello', ({ body }) =&gt; {
+  const form = body.querySelector('.hello-form');
+  const input = body.querySelector('.hello-name');
+  const list = body.querySelector('.hello-list');
+
+  form.addEventListener('submit', (event) =&gt; {
+    event.preventDefault();
+    const item = document.createElement('li');
+    item.textContent = `${input.value} was here`;
+    list.append(item);
+    form.reset();
+  });
+});</code></pre>
+                    </div>
+                    <p>Reload the desktop and double-click <strong>Hello</strong>. That's it - you made an app.</p>
+                </li>
+            </ol>
+
+            <div class="welcome-callout">
+                <strong>Stuck?</strong>
+                <span>Open your browser's developer console - the desktop logs a clear message when an app's files can't be found.
+                    Full details live in <code>apps/README.md</code>.</span>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section class="welcome-section" data-section="api" hidden>
+            <h1 class="welcome-title">What your script gets.</h1>
+            <p class="welcome-lead">
+                <code>Desktop.app(id, setup)</code> hands your <code>setup</code> function a few helpers.
+                Pick the ones you need:
+            </p>
+
+            <div class="welcome-code">
+                <button type="button" class="welcome-copy">Copy</button>
+<pre><code>Desktop.app('hello', ({ body, url, onOpen, onClose, close, setTitle }) =&gt; {
+  // ...
+});</code></pre>
+            </div>
+
+            <table class="welcome-table">
+                <tbody>
+                    <tr><td><code>body</code></td><td>The element holding your <code>index.html</code>. Use <code>body.querySelector(...)</code> to find things.</td></tr>
+                    <tr><td><code>url(path)</code></td><td>Full address of a file in your app folder - for <code>fetch(url('data.json'))</code>, images or audio made in JS.</td></tr>
+                    <tr><td><code>onOpen(fn)</code></td><td>Run code every time the window opens (the first time too).</td></tr>
+                    <tr><td><code>onClose(fn)</code></td><td>Run code when it closes - pause a video, stop a timer.</td></tr>
+                    <tr><td><code>close()</code></td><td>Close the window from your own button.</td></tr>
+                    <tr><td><code>setTitle(text)</code></td><td>Change the title bar text.</td></tr>
+                </tbody>
+            </table>
+
+            <h2 class="welcome-h2">Anywhere on the page</h2>
+            <table class="welcome-table">
+                <tbody>
+                    <tr><td><code>Desktop.open('music')</code></td><td>Open or bring an app to the front. <button type="button" class="welcome-try" data-open="music">Try it</button></td></tr>
+                    <tr><td><code>Desktop.close('music')</code></td><td>Close an app.</td></tr>
+                    <tr><td><code>Desktop.createWindow({ title, width, height })</code></td><td>An extra window, like the Photos viewer. <button type="button" class="welcome-try" id="welcome-demo-window">Try it</button></td></tr>
+                    <tr><td><code>Desktop.url('photos', 'photos.json')</code></td><td>Address of a file in any app's folder.</td></tr>
+                </tbody>
+            </table>
+
+            <h2 class="welcome-h2">Phone layout</h2>
+            <p class="welcome-lead">
+                On a phone, every app gets a tab and shows its normal <code>index.html</code> full-screen. That's
+                enough for most apps. For a layout made for touch (like Music and Photos), add a
+                <code>"mobile"</code> block to <code>app.json</code> and register a second setup function:
+            </p>
+
+            <div class="welcome-code">
+                <button type="button" class="welcome-copy">Copy</button>
+<pre><code>// app.json
+"mobile": {
+  "html": "mobile.html",
+  "styles": ["mobile.css"],
+  "scripts": ["mobile.js"]
+}
+
+// mobile.js
+Desktop.mobileApp('hello', ({ body, url, onModeChange }) =&gt; {
+  // same helpers as Desktop.app
+});</code></pre>
+            </div>
+
+            <table class="welcome-table">
+                <tbody>
+                    <tr><td><code>Desktop.mode</code></td><td><code>'desktop'</code> or <code>'mobile'</code> right now.</td></tr>
+                    <tr><td><code>onModeChange(fn)</code></td><td>Runs when the page switches layouts - e.g. pause audio that's playing in the other layout.</td></tr>
+                    <tr><td><code>"mobile": false</code></td><td>In <code>app.json</code>: hide the app on phones.</td></tr>
+                </tbody>
+            </table>
+
+            <h2 class="welcome-h2">Handy extras</h2>
+            <ul class="welcome-list">
+                <li>Add <code>data-image-menu</code> to an element and its images get the right-click menu.</li>
+                <li>Use <code>&lt;div class="app-empty"&gt;</code> for a quick centred "nothing here yet" message.</li>
+                <li>Link straight to an app: <code>desktop/index.html#photos</code>.</li>
+                <li>Load a library from a CDN in <code>app.json</code>: <code>{ "src": "https://...", "optional": true }</code>.</li>
+                <li>Design tokens for consistent sizing: <code>--space-1</code>...<code>--space-6</code>, <code>--text-2xs</code>...<code>--text-xl</code>.</li>
+            </ul>
+        </section>
+
+        <!-- ============================================================ -->
+        <section class="welcome-section" data-section="content" hidden>
+            <h1 class="welcome-title">Fill the apps with your work.</h1>
+            <p class="welcome-lead">
+                Music and Photos come with <strong>sample content</strong> - made-up artists, generated
+                audio loops and placeholder photos - so you can see how everything works.
+                Replace it with your own whenever you're ready.
+            </p>
+
+            <div class="welcome-cards">
+                <a class="welcome-card" href="../../developer/" target="_blank" rel="noopener">
+                    <strong>Open the editor →</strong>
+                    <span>Add, edit and delete artists, releases, tracks, photo libraries and albums with forms instead of code.</span>
+                </a>
+            </div>
+
+            <table class="welcome-table">
+                <tbody>
+                    <tr><td><code>apps/music/music.json</code></td><td>Artists → releases → tracks (audio link + length).</td></tr>
+                    <tr><td><code>apps/photos/photos.json</code></td><td>Libraries → years → albums → photo links.</td></tr>
+                    <tr><td><code>apps/*/sample/</code></td><td>The sample images and audio. Delete these folders once nothing points to them.</td></tr>
+                </tbody>
+            </table>
+
+            <h2 class="welcome-h2">Swap the samples for your own</h2>
+            <ol class="welcome-steps">
+                <li>
+                    <h3>Clear the samples</h3>
+                    <p>In the editor, click <strong>Select</strong>, tick every row, then <strong>More → Delete</strong>. Do it in both the Music and Photos sections.</p>
+                </li>
+                <li>
+                    <h3>Add your work</h3>
+                    <p>Use the blue <strong>Add</strong> button. Images can be dropped straight in; audio needs a link to an <code>.mp3</code> (or similar) file -
+                        put files in a folder like <code>media/audio/</code> and use <code>../media/audio/song.mp3</code>, or paste a link from an audio host.</p>
+                </li>
+                <li>
+                    <h3>Save it for real</h3>
+                    <p>Until you publish, changes only live in <em>your</em> browser. Publish with the API
+                        (<button type="button" class="welcome-link" data-go="api-setup">Set up publishing</button>),
+                        or use <strong>More → Download</strong> and replace the JSON file in the app's folder yourself.</p>
+                </li>
+            </ol>
+
+            <p class="welcome-note">
+                Paths like <code>../media/...</code> are relative to the <code>desktop/</code> page, so they work
+                in both the desktop and the editor.
+            </p>
+        </section>
+
+        <!-- ============================================================ -->
+        <section class="welcome-section" data-section="customize" hidden>
+            <h1 class="welcome-title">Make it look like you.</h1>
+
+            <table class="welcome-table">
+                <tbody>
+                    <tr><td>Wallpaper</td><td>Replace <code>media/img/default.webp</code>. Visitors can also right-click a photo → <em>Set as Background</em>.</td></tr>
+                    <tr><td>Logo</td><td>Replace <code>media/svg/logo.svg</code> - it's on the landing page (<code>index.html</code>).</td></tr>
+                    <tr><td>Page title &amp; sharing</td><td>Replace the <code>YOUR ... HERE</code> placeholders in the <code>&lt;title&gt;</code> and <code>&lt;meta&gt;</code> tags of <code>index.html</code> and <code>desktop/index.html</code>.</td></tr>
+                    <tr><td>Welcome message</td><td>The clock greeting lives in the small script near the top of <code>desktop/index.html</code>.</td></tr>
+                    <tr><td>App order</td><td>Reorder <code>apps/apps.json</code>. Remove a name to hide that app.</td></tr>
+                    <tr><td>Icons per row</td><td>Change <code>--icons-per-row</code> in <code>css/desktop.css</code> (it's 3).</td></tr>
+                    <tr><td>App icons</td><td>Set <code>"icon"</code> in an app's <code>app.json</code>. PNG or SVG, square works best.</td></tr>
+                    <tr><td>Overall size</td><td>Everything uses <code>rem</code>, so changing <code>html { font-size }</code> in <code>css/desktop.css</code> scales the whole desktop.</td></tr>
+                </tbody>
+            </table>
+
+            <h2 class="welcome-h2">This guide</h2>
+            <ul class="welcome-list">
+                <li>It's an app too: <code>apps/welcome</code>. Rewrite it to introduce yourself instead!</li>
+                <li>Stop it opening automatically with <code>"openOnStart": false</code> in its <code>app.json</code>, or remove <code>"welcome"</code> from <code>apps.json</code>.</li>
+            </ul>
+        </section>
+
+        <!-- ============================================================ -->
+        <section class="welcome-section" data-section="publish" hidden>
+            <h1 class="welcome-title">Upload the folder, and you're live.</h1>
+            <p class="welcome-lead">Desk Kit is plain files, so any web host works. There are two ways to run it.</p>
+
+            <table class="welcome-table">
+                <tbody>
+                    <tr><td><strong>Any static host</strong><br>GitHub Pages, Netlify, Neocities...</td><td>Everything on the desktop works. To change Music or Photos, edit the JSON (or download it from the editor) and upload it again.</td></tr>
+                    <tr><td><strong>A host with PHP</strong><br>most shared hosting</td><td>Same, plus the editor can <strong>Publish</strong> changes and upload images straight to your site. See <button type="button" class="welcome-link" data-go="api-setup">Set up publishing</button>.</td></tr>
+                </tbody>
+            </table>
+
+            <ol class="welcome-steps">
+                <li>
+                    <h3>Make it yours first</h3>
+                    <p>Replace the sample content, wallpaper, logo and the <code>YOUR ... HERE</code> placeholders in <code>index.html</code> and <code>desktop/index.html</code>.</p>
+                </li>
+                <li>
+                    <h3>Upload everything</h3>
+                    <p>Copy the whole project folder to your host (FTP, your host's file manager, or a Git deploy). Visitors start at <code>index.html</code>.</p>
+                </li>
+                <li>
+                    <h3>Check it</h3>
+                    <p>Open your site, enter the desktop and open each app. If an app doesn't open, the browser console says which file is missing.</p>
+                </li>
+            </ol>
+
+            <div class="welcome-callout">
+                <strong>Test on your computer first</strong>
+                <span>From the project folder, run <code>php -S localhost:8000</code> and open <code>http://localhost:8000</code>.
+                    This runs the API too, so you can try publishing locally.</span>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section class="welcome-section" data-section="api-setup" hidden>
+            <h1 class="welcome-title">Set up publishing.</h1>
+            <p class="welcome-lead">
+                The <code>api/</code> folder has two small PHP scripts the editor talks to. Once they have a
+                secret key, <strong>Publish</strong> saves your changes on the server for every visitor,
+                and images you drop in are uploaded instead of stored in your browser.
+            </p>
+
+            <table class="welcome-table">
+                <tbody>
+                    <tr><td><code>api/upload.php</code></td><td>Saves <code>apps/music/music.json</code> or <code>apps/photos/photos.json</code> (keeping a <code>.backup.json</code> of the old one), and uploads images to <code>api/uploads/</code>.</td></tr>
+                    <tr><td><code>api/delete.php</code></td><td>Deletes an uploaded image.</td></tr>
+                    <tr><td><code>api/key.env</code></td><td>Your secret key. <strong>Empty by default</strong>, which keeps publishing switched off.</td></tr>
+                    <tr><td><code>api/.htaccess</code></td><td>Stops anyone downloading <code>key.env</code> on Apache hosts.</td></tr>
+                </tbody>
+            </table>
+
+            <h2 class="welcome-h2">Step by step</h2>
+            <ol class="welcome-steps">
+                <li>
+                    <h3>Check your host has PHP</h3>
+                    <p>PHP 7.4 or newer with the <code>fileinfo</code> extension (it's on by default almost everywhere).
+                        Locally, <code>php -S localhost:8000</code> is enough.</p>
+                </li>
+                <li>
+                    <h3>Make a secret key</h3>
+                    <p>Any long random string of letters and numbers works. This command makes one:</p>
+                    <div class="welcome-code">
+                        <button type="button" class="welcome-copy">Copy</button>
+<pre><code>php -r "echo bin2hex(random_bytes(32)), PHP_EOL;"</code></pre>
+                    </div>
+                    <p>No PHP on your computer? A password manager's generator is fine - skip symbols like <code>" ; = !</code>.</p>
+                </li>
+                <li>
+                    <h3>Put it in <code>api/key.env</code></h3>
+                    <p>Open the file on your server and fill in the empty line at the bottom:</p>
+                    <div class="welcome-code">
+                        <button type="button" class="welcome-copy">Copy</button>
+<pre><code>API_KEY=your-long-random-key</code></pre>
+                    </div>
+                    <p>Don't put a real key in a public Git repository - add it on the server, or keep <code>api/key.env</code> out of the repo.</p>
+                </li>
+                <li>
+                    <h3>Let PHP write files</h3>
+                    <p>The server needs permission to write to <code>apps/music/</code>, <code>apps/photos/</code> and <code>api/</code>
+                        (it creates <code>api/uploads/</code> itself). On most hosts this just works; if not, set those folders to <code>755</code> in your file manager.</p>
+                </li>
+                <li>
+                    <h3>Connect the editor</h3>
+                    <p>Open <code>/developer/</code>, click the settings icon (top right) and paste the same key.
+                        Tick <em>Remember the key on this device</em> on your own computer only.
+                        Leave <em>API endpoint</em> empty unless you moved the <code>api</code> folder.</p>
+                </li>
+                <li>
+                    <h3>Publish</h3>
+                    <p>Make a change, press <strong>Publish</strong> and check the summary. When the status says
+                        <em>Up to date</em>, reload the desktop in another browser - everyone sees the new version.</p>
+                </li>
+            </ol>
+
+            <h2 class="welcome-h2">If something goes wrong</h2>
+            <table class="welcome-table">
+                <tbody>
+                    <tr><td>"The API key was rejected"</td><td>The key in Settings doesn't match <code>api/key.env</code>. Check for spaces or a missing character.</td></tr>
+                    <tr><td>"API key not configured"</td><td><code>api/key.env</code> is still empty on the server (or wasn't uploaded).</td></tr>
+                    <tr><td>"No API found" / "Couldn't reach the API"</td><td>The host doesn't run PHP, or the site isn't served over a web server. Use <strong>More → Download</strong> instead.</td></tr>
+                    <tr><td>"Failed to save JSON"</td><td>PHP can't write to the app's folder - fix the folder permissions (step 4).</td></tr>
+                    <tr><td>Unauthorized on some hosts</td><td>A few servers strip the login header. <code>api/.htaccess</code> fixes this on Apache; ask your host about other servers.</td></tr>
+                </tbody>
+            </table>
+
+            <div class="welcome-callout">
+                <strong>Keep it safe</strong>
+                <span>Anyone with the key can change your Music and Photos and upload images. If it leaks, put a new key in <code>api/key.env</code> - the old one stops working straight away.</span>
+            </div>
+        </section>
+    </main>
+</div>

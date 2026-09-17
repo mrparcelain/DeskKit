@@ -1,0 +1,57 @@
+<!--
+    Photos - phone layout (used when the screen is narrow).
+    The desktop window uses index.html instead. Behaviour: mobile.js, styles: mobile.css.
+-->
+<div class="mp">
+    <div class="mp-stack">
+
+        <!-- 1. Libraries -->
+        <section class="mp-page is-current" data-page="libraries">
+            <header class="mp-bar mp-bar--large">
+                <span class="mp-bar-title">Libraries</span>
+            </header>
+            <div class="mp-scroll mp-libraries" role="list"></div>
+        </section>
+
+        <!-- 2. Albums in a library -->
+        <section class="mp-page" data-page="albums" hidden>
+            <header class="mp-bar">
+                <button type="button" class="mp-back" data-back="libraries">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                    Libraries
+                </button>
+                <span class="mp-bar-title mp-library-name"></span>
+            </header>
+            <div class="mp-scroll mp-albums" role="list"></div>
+        </section>
+
+        <!-- 3. Photo grid -->
+        <section class="mp-page" data-page="grid" hidden>
+            <header class="mp-bar">
+                <button type="button" class="mp-back mp-back-to-albums" data-back="albums">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span class="mp-back-label">Albums</span>
+                </button>
+                <span class="mp-bar-title mp-album-name"></span>
+            </header>
+            <div class="mp-scroll">
+                <div class="mp-grid"></div>
+                <p class="mp-count"></p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Full-screen viewer -->
+    <div class="mp-viewer" role="dialog" aria-label="Photo" hidden>
+        <div class="mp-viewer-bar">
+            <button type="button" class="mp-viewer-btn mp-viewer-close" aria-label="Close">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+            <span class="mp-viewer-counter"></span>
+            <a class="mp-viewer-btn mp-viewer-download" download aria-label="Download">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+            </a>
+        </div>
+        <div class="mp-viewer-track"></div>
+    </div>
+</div>

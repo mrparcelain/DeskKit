@@ -1,0 +1,9 @@
+{
+  "name": "Pages",
+  "icon": "../../ui/icon/folder.png",
+  "window": {
+    "width": "36rem",
+    "height": "24rem"
+  },
+  "html": "index.html"
+}

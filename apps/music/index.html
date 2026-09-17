@@ -1,0 +1,63 @@
+<!--
+    Music app - this is placed inside the app's window (below the title bar).
+    Relative paths like "assets/..." point into apps/music/.
+    Behaviour lives in script.js, styles in style.css.
+-->
+<div id="musictopbar">
+    <div id="audiocontrolbox">
+        <div id="musiccontrol">
+            <img src="assets/music-back.svg" id="song-previous" alt="Previous">
+            <button id="play-button" type="button">
+                <img src="assets/music-pause.svg" class="pauseIcon" alt="Pause" style="display: none;">
+                <img src="assets/music-play.svg" class="playIcon" alt="Play">
+            </button>
+            <img src="assets/music-next.svg" id="song-next" alt="Next">
+        </div>
+        <input type="range" min="0" max="100" value="50" class="volumeslider" id="musicvolume" aria-label="Volume">
+    </div>
+
+    <div id="nowplayingbar" style="display: none;">
+        <div class="nowplaying-inner">
+            <img src="" id="nowplayingcover" class="nowplaying-cover" alt="">
+            <div class="nowplaying-text">
+                <span id="nowplaying-song"></span>
+                <div id="nowplaying-info">
+                    <span id="nowplaying-artist"></span>
+                    <span>&nbsp;-&nbsp;</span>
+                    <span id="nowplaying-album"></span>
+                </div>
+            </div>
+            <img src="assets/repeat-off.svg" id="repeat-button" alt="Repeat">
+        </div>
+        <input type="range" min="0" max="100" value="0" id="songprogress" aria-label="Seek">
+    </div>
+
+    <div id="notplayingbar" style="display: block;">
+        <div class="notplaying-inner">
+            <img src="../../media/img/favicon.ico" draggable="false" alt="">
+        </div>
+    </div>
+
+    <div class="musicsearch">
+        <input id="searchbarbox" type="text" placeholder="Search">
+    </div>
+</div>
+
+<div class="maininfobox music-main">
+    <div id="searchresults" style="display: none;">
+        <div class="pane-padding">
+            <span class="section-title">Search Results</span>
+            <div class="section-rule"></div>
+            <div id="searchresults-wrapper"></div>
+        </div>
+    </div>
+
+    <div id="sortedmusiclist"></div>
+
+    <div id="sortedalbumlist">
+        <div class="pane-padding">
+            <span id="selectedartistname"></span>
+            <div id="albumstack"></div>
+        </div>
+    </div>
+</div>

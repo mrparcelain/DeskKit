@@ -1,0 +1,314 @@
+/* ==========================================================================
+   Photos - phone layout
+   Libraries → albums → 3-column grid → swipeable full-screen viewer.
+   Classes start with .mp-
+   ========================================================================== */
+
+.mp {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    background: #ffffff;
+    color: #000000;
+    font-family: var(--ui-font);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mp button {
+    font: inherit;
+    cursor: pointer;
+}
+
+/* ---------- Page stack ---------- */
+
+.mp-stack {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.mp-page {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+    will-change: transform;
+}
+
+.mp-page[hidden] { display: none; }
+.mp-page.is-current { z-index: 2; transform: none; }
+.mp-page.is-after { z-index: 3; transform: translate3d(100%, 0, 0); box-shadow: -0.5rem 0 1.5rem rgba(0, 0, 0, 0.15); }
+.mp-page.is-before { z-index: 1; transform: translate3d(-30%, 0, 0); }
+.mp-page.is-instant { transition: none; }
+
+.mp-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ---------- Header bars ---------- */
+
+.mp-bar {
+    position: relative;
+    flex: none;
+    display: flex;
+    align-items: center;
+    height: 2.75rem;
+    padding: 0 var(--space-2);
+    background: linear-gradient(180deg, #f7f7f7 0%, #ececec 100%);
+    border-bottom: 1px solid #b2b2b2;
+}
+
+.mp-bar-title {
+    position: absolute;
+    left: 50%;
+    /* leave room for a back button on both sides so they never overlap */
+    max-width: calc(100% - 14rem);
+    overflow: hidden;
+    transform: translateX(-50%);
+    color: #3f3f3f;
+    font-size: 1.3125rem;
+    font-weight: 300;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    pointer-events: none;
+}
+
+.mp-bar--large {
+    height: 3.5rem;
+    padding: 0 var(--space-4);
+    background: linear-gradient(180deg, #dcdcdc 0%, #d0d0d0 100%);
+}
+
+.mp-bar--large .mp-bar-title {
+    position: static;
+    max-width: none;
+    transform: none;
+    font-size: 1.875rem;
+    letter-spacing: -0.01em;
+}
+
+.mp-back {
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    max-width: 6.5rem;
+    min-height: 2.75rem;
+    padding: 0 var(--space-1) 0 0;
+    border: 0;
+    background: none;
+    color: #007aff;
+    font-size: 1.0625rem;
+    white-space: nowrap;
+}
+
+.mp-back-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mp-back svg {
+    flex: none;
+    width: 1.75rem;
+    height: 1.75rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ---------- Library and album cards ---------- */
+
+.mp-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4) var(--space-3);
+    padding: var(--space-4) var(--space-3) var(--space-6);
+}
+
+.mp-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-align: left;
+}
+
+.mp-card-cover {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    margin-bottom: var(--space-2);
+    overflow: hidden;
+    border-radius: 6px;
+    background: #a9d0f5 url(../../ui/icon/folder.png) center / 60% no-repeat;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.mp-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mp-card:active .mp-card-cover img { opacity: 0.75; }
+
+.mp-card-title {
+    overflow: hidden;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.mp-card-sub {
+    color: #8e8e93;
+    font-size: 0.8125rem;
+}
+
+.mp-empty {
+    grid-column: 1 / -1;
+    padding: var(--space-6) var(--space-4);
+    color: #8e8e93;
+    font-size: 0.9375rem;
+    text-align: center;
+}
+
+/* ---------- Grid ---------- */
+
+.mp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    padding: 2px;
+}
+
+.mp-tile {
+    display: block;
+    aspect-ratio: 1;
+    padding: 0;
+    border: 0;
+    background: #eeeeee;
+    overflow: hidden;
+}
+
+.mp-tile img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mp-tile:active img { opacity: 0.7; }
+
+.mp-count {
+    margin: var(--space-4) 0 var(--space-6);
+    color: #8e8e93;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+/* ---------- Viewer ---------- */
+
+.mp-viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    background: #000000;
+    color: #ffffff;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    touch-action: pan-y;
+}
+
+.mp-viewer[hidden] { display: none; }
+.mp-viewer.is-open { opacity: 1; }
+
+.mp-viewer-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-2);
+    padding-top: calc(var(--space-2) + env(safe-area-inset-top));
+    background: linear-gradient(rgba(0, 0, 0, 0.6), transparent);
+    transition: opacity 0.2s ease;
+}
+
+.mp-viewer.is-chrome-hidden .mp-viewer-bar { opacity: 0; pointer-events: none; }
+
+.mp-viewer-btn {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+.mp-viewer-btn svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.mp-viewer-counter {
+    font-size: 0.9375rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.mp-viewer-track {
+    flex: 1 1 auto;
+    display: flex;
+    height: 100%;
+    will-change: transform;
+}
+
+.mp-viewer-track.is-animating {
+    transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.mp-slide {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 2px;
+}
+
+.mp-slide img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mp-page,
+    .mp-viewer,
+    .mp-viewer-track.is-animating { transition: none; }
+}

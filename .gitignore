@@ -1,0 +1,20 @@
+# Local secrets (copy api/key.env.example to api/key.env)
+api/key.env
+
+# Editors and OS files
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Scratch folders and backups
+*outputs/
+*.bak
+*.bak-*
+*.log
+
+# Reference material that is not part of the site
+mobile/
+data/

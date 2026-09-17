@@ -1,0 +1,19 @@
+{
+  "name": "Music",
+  "icon": "icon.png",
+  "window": {
+    "width": "68rem",
+    "height": "42rem",
+    "minWidth": "40rem",
+    "minHeight": "24rem"
+  },
+  "html": "index.html",
+  "styles": ["style.css"],
+  "scripts": ["script.js"],
+  "mobile": {
+    "html": "mobile.html",
+    "styles": ["mobile.css"],
+    "scripts": ["mobile.js"],
+    "titlebar": false
+  }
+}

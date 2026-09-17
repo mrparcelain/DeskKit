@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="darkreader-lock">
+    <title>Music Library · Developer</title>
+    <link rel="icon" href="../media/img/favicon.ico">
+    <link rel="stylesheet" href="../css/fonts.css">
+    <link rel="stylesheet" href="../css/developer.css">
+</head>
+<body>
+
+    <!-- The editor is for computers only: on narrow screens this notice replaces it -->
+    <div class="desktop-only" role="alert">
+        <div class="desktop-only-card">
+            <strong>Open the editor on a computer</strong>
+            <p>The Music &amp; Photos editor needs a bigger screen. Make this window wider, or open <code>/developer/</code> on a desktop or laptop.</p>
+            <a class="btn btn-primary btn-lg" href="../desktop/index.html">Back to the site</a>
+        </div>
+    </div>
+
+    <!-- ============ Base header ============ -->
+    <header class="base-header">
+        <div class="base-icon" aria-hidden="true" data-icon="music"></div>
+        <div class="base-title">
+            <strong id="base-title">Music Library</strong>
+            <span>Desk Kit · Developer</span>
+        </div>
+
+        <div class="section-switch" role="tablist" aria-label="Section">
+            <button type="button" role="tab" data-section="music" aria-selected="true"><span data-icon="music"></span><span class="section-label">Music</span></button>
+            <button type="button" role="tab" data-section="photos" aria-selected="false"><span data-icon="image"></span><span class="section-label">Photos</span></button>
+        </div>
+
+        <div class="header-spacer"></div>
+
+        <span id="status" class="status-pill" role="status" aria-live="polite">
+            <span class="status-dot"></span>
+            <span id="status-text">Loading...</span>
+        </span>
+
+        <a class="btn header-btn hide-sm" href="../desktop/index.html" target="_blank" rel="noopener">
+            <span data-icon="external"></span> Open desktop
+        </a>
+        <button id="settings-btn" class="icon-btn header-btn" type="button" aria-label="Settings" title="Settings">
+            <span data-icon="gear"></span>
+        </button>
+        <button id="publish-btn" class="btn btn-publish" type="button">
+            <span data-icon="upload"></span> Publish
+        </button>
+    </header>
+
+    <!-- ============ Table tabs ============ -->
+    <nav class="table-tabs" role="tablist" aria-label="Tables"></nav>
+
+    <!-- ============ View bar ============ -->
+    <div class="view-bar">
+        <span class="view-name"><span data-icon="grid"></span> Grid view</span>
+
+        <label class="search">
+            <span class="sr-only">Search records</span>
+            <span data-icon="search"></span>
+            <input id="search" type="search" placeholder="Search..." autocomplete="off">
+        </label>
+
+        <span id="record-count" class="record-count"></span>
+
+        <div class="header-spacer"></div>
+
+        <button id="select-btn" class="btn btn-ghost" type="button" aria-pressed="false" title="Select records">
+            <span data-icon="select"></span><span id="select-btn-label">Select</span>
+        </button>
+
+        <div class="menu-wrap">
+            <button id="more-btn" class="btn btn-ghost" type="button" aria-haspopup="menu" aria-expanded="false">
+                <span data-icon="dots"></span><span class="hide-sm">More</span>
+            </button>
+            <div id="more-menu" class="menu" role="menu" hidden>
+                <button class="menu-item" role="menuitem" data-action="download"><span data-icon="download"></span> <span class="menu-label">Download music.json</span></button>
+                <button class="menu-item" role="menuitem" data-action="import"><span data-icon="file"></span> <span class="menu-label">Import a music.json file...</span></button>
+                <div class="menu-sep"></div>
+                <button class="menu-item" role="menuitem" data-action="sort"><span data-icon="sort"></span> <span class="menu-label">Sort artists A → Z</span></button>
+                <div class="menu-sep"></div>
+                <button class="menu-item is-danger" role="menuitem" data-action="delete"><span data-icon="trash"></span> <span class="menu-label">Delete records...</span></button>
+                <button class="menu-item is-danger" role="menuitem" data-action="discard"><span data-icon="undo"></span> Discard unpublished changes</button>
+            </div>
+            <input id="import-input" type="file" accept="application/json,.json" hidden>
+        </div>
+
+        <button id="add-btn" class="btn btn-primary" type="button">
+            <span data-icon="plus"></span> <span id="add-btn-label">Add artist</span>
+        </button>
+    </div>
+
+    <div id="notice" class="notice" hidden></div>
+
+    <!-- ============ Grid ============ -->
+    <main class="grid-scroll" id="grid-scroll">
+        <table class="grid" id="grid">
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+        <div id="empty" class="empty" hidden></div>
+    </main>
+
+    <!-- ============ Record dialog (filled by JS) ============ -->
+    <dialog id="record-dialog" class="dialog" aria-labelledby="record-title"></dialog>
+
+    <!-- ============ Settings ============ -->
+    <dialog id="settings-dialog" class="dialog dialog-sm" aria-labelledby="settings-title">
+        <form method="dialog" id="settings-form" novalidate>
+            <div class="form-cover"></div>
+            <div class="dialog-header">
+                <div class="dialog-heading">
+                    <div class="eyebrow"><span data-icon="gear"></span> Settings</div>
+                    <h2 class="dialog-title" id="settings-title">Publishing</h2>
+                    <p class="dialog-sub">Connect to <code>api/upload.php</code> so Publish writes <code>apps/music/music.json</code> / <code>apps/photos/photos.json</code> and images upload to your server.</p>
+                </div>
+                <button class="icon-btn" type="button" data-close aria-label="Close"><span data-icon="close"></span></button>
+            </div>
+            <div class="dialog-body">
+                <div class="field">
+                    <label class="field-label" for="api-url"><span data-icon="link"></span> API endpoint</label>
+                    <p class="field-help">Relative to this page. Leave the default unless you moved the <code>api</code> folder.</p>
+                    <input class="input" id="api-url" type="text" placeholder="../api/upload.php" autocomplete="off" spellcheck="false">
+                </div>
+                <div class="field">
+                    <label class="field-label" for="api-key"><span data-icon="key"></span> API key</label>
+                    <p class="field-help">The <code>API_KEY</code> value from <code>api/key.env</code>. Without a key, your changes stay in this browser - you can still download the JSON.</p>
+                    <div class="input-row">
+                        <input class="input" id="api-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your key">
+                        <button class="btn btn-secondary" type="button" id="toggle-key">Show</button>
+                    </div>
+                    <label class="checkbox"><input type="checkbox" id="remember-key"> Remember the key on this device</label>
+                </div>
+            </div>
+            <div class="dialog-footer">
+                <div class="spacer"></div>
+                <button class="btn btn-ghost" type="button" data-close>Cancel</button>
+                <button class="btn btn-primary" type="submit">Save settings</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- ============ Publish / confirm ============ -->
+    <dialog id="confirm-dialog" class="dialog dialog-sm" aria-labelledby="confirm-title"></dialog>
+
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+
+    <script src="../script/developer.js"></script>
+</body>
+</html>

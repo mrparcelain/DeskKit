@@ -1,0 +1,11 @@
+# Never serve the secret key file (or any .env) to the public
+<FilesMatch "\.env$">
+    Require all denied
+</FilesMatch>
+
+# Pass the Authorization header through to PHP on hosts that strip it
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>

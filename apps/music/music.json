@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Parcelain",
+    "image": "https://images.genius.com/7fd78db0d24d18b2977f332a26a51e29.1000x1000x1.png",
+    "albums": [
+      {
+        "title": "Viewone Beta",
+        "cover": "https://i1.sndcdn.com/artworks-uBwaHYVp4m8b9WXi-6iYOnw-t500x500.jpg",
+        "date": "27 August, 2026",
+        "tracks": [
+          {
+            "title": "Celebrity demo ft. Arga Reath",
+            "url": "https://files.catbox.moe/0hlsfa.mp3",
+            "length": "3:55"
+          },
+          {
+            "title": "Suit demo",
+            "url": "https://files.catbox.moe/xemyht.mp3",
+            "length": "2:46"
+          },
+          {
+            "title": "Welfare",
+            "url": "https://files.catbox.moe/4y33ed.mp3",
+            "length": "3:18"
+          },
+          {
+            "title": "Goodnight demo",
+            "url": "https://files.catbox.moe/ube068.mp3",
+            "length": "1:56"
+          },
+          {
+            "title": "Ash",
+            "url": "https://files.catbox.moe/7sfvs8.mp3",
+            "length": "1:48"
+          },
+          {
+            "title": "Apple",
+            "url": "https://files.catbox.moe/5ok3id.mp3",
+            "length": "2:25"
+          },
+          {
+            "title": "heart demo",
+            "url": "https://files.catbox.moe/gk5wjk.mp3",
+            "length": "2:49"
+          },
+          {
+            "title": "Prelude demo",
+            "url": "https://files.catbox.moe/gk5wjk.mp3",
+            "length": "2:49"
+          },
+          {
+            "title": "Cold demo",
+            "url": "https://files.catbox.moe/dyvagn.mp3",
+            "length": "3:19"
+          }
+        ]
+      },
+      {
+        "title": "Default Album",
+        "cover": "https://i1.sndcdn.com/artworks-yiYgDWiLSl9pPWNA-mGEDpw-t500x500.jpg",
+        "date": "17 September, 2026",
+        "tracks": [
+          {
+            "title": "Laladevochka - depth (Parcelain Remix)",
+            "url": "https://files.catbox.moe/n8rqip.mp3",
+            "length": "2:57"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "SQUEE",
+    "image": "https://i.imgur.gg/dM5bGXn-1f742f1158d0d3ff1da0736b68632c70~tplv-tiktokx-cropcenter_1080_1080.jpeg",
+    "albums": [
+      {
+        "title": "SQUEE",
+        "cover": "https://i.imgur.gg/dM5bGXn-1f742f1158d0d3ff1da0736b68632c70~tplv-tiktokx-cropcenter_1080_1080.jpeg",
+        "date": "5 August, 2026",
+        "tracks": [
+          {
+            "title": "VCBDEMO&HASTESNIPPET",
+            "url": "https://files.catbox.moe/hlpxs0.mp3",
+            "length": "0:44"
+          },
+          {
+            "title": "OFFCOURSE",
+            "url": "https://files.catbox.moe/e41d3x.mp3",
+            "length": "2:13"
+          },
+          {
+            "title": "224la",
+            "url": "https://files.catbox.moe/tayckw.mp3",
+            "length": "2:28"
+          },
+          {
+            "title": "analog2",
+            "url": "https://files.catbox.moe/5ru53h.mp3",
+            "length": "1:44"
+          },
+          {
+            "title": "CJKKCKKK2",
+            "url": "https://files.catbox.moe/97m56b.mp3",
+            "length": "3:57"
+          }
+        ]
+      }
+    ]
+  }
+]

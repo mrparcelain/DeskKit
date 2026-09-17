@@ -1,0 +1,14 @@
+{
+  "name": "Welcome",
+  "icon": "icon.svg",
+  "openOnStart": true,
+  "window": {
+    "width": "54rem",
+    "height": "38rem",
+    "minWidth": "34rem",
+    "minHeight": "22rem"
+  },
+  "html": "index.html",
+  "styles": ["style.css"],
+  "scripts": ["script.js"]
+}

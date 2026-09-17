@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Change these to describe your site -->
+        <title>Desk Kit</title>
+        <meta name="author" content="YOUR NAME HERE">
+        <meta name="description" content="YOUR DESCRIPTION HERE">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="darkreader-lock">
+
+        <!-- Link previews (Discord, iMessage, X...) -->
+        <meta property="og:title" content="YOUR TITLE HERE">
+        <meta property="og:description" content="YOUR DESCRIPTION HERE">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="YOUR URL HERE">
+        <meta property="og:image" content="ADD YOUR BANNER LINK HERE">
+        <meta name="twitter:card" content="summary_large_image">
+
+        <link rel="icon" href="../media/img/favicon.ico">
+
+        <link rel="stylesheet" href="../css/fonts.css">
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+        <link rel="stylesheet" href="../css/pc.css">
+        <link rel="stylesheet" href="../css/desktop.css">
+    </head>
+    <body>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+            function displayTime() {
+                var now = new Date();
+
+                var datetime = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+                document.getElementById("time").innerHTML = datetime;
+
+                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+                const d = now.getDate();
+                let dateSuffix = "th";
+                if (d % 100 < 11 || d % 100 > 13) {
+                    dateSuffix = ({ 1: "st", 2: "nd", 3: "rd" })[d % 10] || "th";
+                }
+
+                document.getElementById("date").innerText = `Welcome back. Today is ${months[now.getMonth()]} ${now.getDate()}${dateSuffix}, ${days[now.getDay()]}.`
+            }
+
+            displayTime(); // initial call
+            setInterval(displayTime, 1000); // update every second
+            });
+        </script>
+
+        <img id="wallpaper" src="../media/img/default.webp" alt="">
+        <div id="shadow"></div>
+
+        <!--
+            Desktop icons. Don't add them here by hand:
+            every app listed in apps/apps.json gets an icon automatically,
+            and its window is created the first time it's opened.
+            See apps/README.md to make your own app.
+        -->
+        <nav class="box-icons1" aria-label="Apps"></nav>
+
+        <div class="time-and-date">
+            <span id="time" class="time"></span>
+            <span id="date"></span>
+        </div>
+
+        <script src="../script/draggable.js"></script>
+        <script src="../script/desktop.js"></script>
+        <script src="../script/contextmenu.js"></script>
+        <script>
+            // Restore a wallpaper chosen with right-click → "Set as Background"
+            try {
+                const savedSrc = localStorage.getItem('wallpaperSrc');
+                if (savedSrc) document.getElementById('wallpaper').src = savedSrc;
+            } catch (err) { /* storage unavailable */ }
+
+            Desktop.boot();
+        </script>
+    </body>
+</html>

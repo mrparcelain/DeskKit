@@ -1,0 +1,71 @@
+<!--
+    Music - phone layout (used when the screen is narrow).
+    The desktop window uses index.html instead. Behaviour: mobile.js, styles: mobile.css.
+-->
+<div class="mm">
+    <div class="mm-stack">
+
+        <!-- 1. Artists -->
+        <section class="mm-page is-current" data-page="library">
+            <header class="mm-bar mm-bar--large">
+                <span class="mm-bar-title">Artists</span>
+                <button type="button" class="mm-np" hidden>Now Playing</button>
+            </header>
+            <div class="mm-scroll">
+                <div class="mm-list mm-artists" role="list"></div>
+            </div>
+        </section>
+
+        <!-- 2. One artist's releases and tracks -->
+        <section class="mm-page" data-page="artist" hidden>
+            <header class="mm-bar">
+                <button type="button" class="mm-back" data-back>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                    Artists
+                </button>
+                <span class="mm-bar-title mm-artist-name"></span>
+                <button type="button" class="mm-np" hidden>Now Playing</button>
+            </header>
+            <div class="mm-scroll mm-releases"></div>
+        </section>
+    </div>
+
+    <!-- 3. Now Playing (slides up over everything) - same layout as radio2 -->
+    <section class="mm-player" aria-label="Now playing" hidden>
+        <header class="mm-player-bar">
+            <span class="mm-player-heading">Now Playing</span>
+        </header>
+
+        <div class="mm-player-body">
+            <button type="button" class="mm-player-close" aria-label="Hide player">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+
+            <div class="mm-artwork"><img class="mm-cover" src="" alt=""></div>
+
+            <div class="mm-track-info">
+                <h2 class="mm-now-title">Not Playing</h2>
+                <h3 class="mm-now-artist">Select a song</h3>
+            </div>
+
+            <div class="mm-controls">
+                <button type="button" class="mm-ctrl mm-prev" aria-label="Previous">
+                    <svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg>
+                </button>
+                <button type="button" class="mm-ctrl mm-play" aria-label="Play">
+                    <svg class="mm-icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <svg class="mm-icon-pause" viewBox="0 0 24 24" hidden><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                </button>
+                <button type="button" class="mm-ctrl mm-next" aria-label="Next">
+                    <svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>
+                </button>
+            </div>
+
+            <div class="mm-volume">
+                <input type="range" class="mm-volume-range" min="0" max="1" step="0.1" value="1" aria-label="Volume">
+            </div>
+        </div>
+    </section>
+
+    <audio class="mm-audio" preload="metadata" playsinline></audio>
+</div>
